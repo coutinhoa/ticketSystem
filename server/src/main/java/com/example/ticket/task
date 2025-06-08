@@ -1,0 +1,10 @@
+Two events:
+I have an event taylor swift concert that has three tickets available.
+I have an nfl event that has 5 tickets.
+
+Users should be able to book tickets but not if they already booked a ticket for that event.
+They should also not be able more tickets than the available ones.
+
+If I have a list of events book two tickets for taylor swift concert.
+
+Entities: Event,Ticket,User

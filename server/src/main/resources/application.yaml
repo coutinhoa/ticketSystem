@@ -1,0 +1,9 @@
+spring:
+  application-name: ticket
+  datasource:
+    url: jdbc:postgresql://localhost:15432/ticketing_system?createDatabaseIfNotExist=true&connectionCollation=utf8mb4_unicode_ci&serverTimezone=UTC
+    username: user
+    password: very-secure-password
+  elasticsearch:
+    uris: http://localhost:9200
+
