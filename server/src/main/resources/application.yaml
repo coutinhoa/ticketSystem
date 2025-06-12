@@ -1,3 +1,8 @@
+application:
+  kafka:
+    event-listener-enabled: ${EVENT_LISTENER_ENABLED:false}
+  environment: ${ENVIROMENT:local}
+
 spring:
   application-name: ticket
   datasource:
@@ -6,4 +11,9 @@ spring:
     password: very-secure-password
   elasticsearch:
     uris: http://localhost:9200
+
+  kafka:
+    enabled: ${application.kafka.enabled}
+    reference-listener-enabled: ${KAFKA_REFERENCE_LISTENER_ENABLED:false}
+
 

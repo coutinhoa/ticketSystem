@@ -19,4 +19,5 @@ public class Event {
     private String type;
     private LocalDate createdAt;
     private List<Ticket> tickets;
+    private Boolean deleted = Boolean.FALSE;
 }

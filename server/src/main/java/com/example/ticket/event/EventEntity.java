@@ -1,9 +1,10 @@
 package com.example.ticket.event;
 
-import com.example.ticket.ticket.domain.Ticket;
 import com.example.ticket.ticket.persistence.TicketEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -16,6 +17,8 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@SQLDelete(sql = "UPDATE T_EVENT SET deleted = true WHERE id =?")
+@Where(clause = "deleted=false")
 public class EventEntity {
 
     @Column(name = "id", nullable = false)
@@ -34,6 +37,9 @@ public class EventEntity {
 
     @Column(name = "available_tickets", nullable = false)
     private int availableTickets;
+
+    @Column(name = "deleted", nullable = false)
+    private Boolean deleted = Boolean.FALSE;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();

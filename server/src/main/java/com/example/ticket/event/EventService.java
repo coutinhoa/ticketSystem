@@ -9,6 +9,9 @@ import com.example.ticket.ticket.domain.TicketStatus;
 import com.example.ticket.ticket.persistence.TicketEntity;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -87,5 +90,28 @@ public class EventService {
         eventElasticRepository.save(eventElastic);
         System.out.println("Event saved to Elasticsearch with ID: " + eventElastic.getId());
         return savedEvent;
+    }
+
+    public Page<Event> searchEventsPageable(String artist, String location, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return eventRepository.findByArtistOrLocation(artist, location, pageable)
+                .map(eventMapper::toEvent);
+    }
+
+    public void deleteEvent(Long eventId) {
+        EventEntity eventEntity = eventRepository.findById(eventId)
+                .orElseThrow(() -> new IllegalArgumentException("Event not found"));
+        List<TicketEntity> tickets = eventEntity.getTickets();
+        if (tickets != null) {
+            for (TicketEntity ticket : tickets) {
+                ticket.setStatus(TicketStatus.CANCELLED);
+            }
+        }
+        eventRepository.delete(eventEntity);
+
+        eventElasticRepository.deleteById(String.valueOf(eventId));
+    }
+
+    public void handleEventCreated(EventCreated event) {
     }
 }

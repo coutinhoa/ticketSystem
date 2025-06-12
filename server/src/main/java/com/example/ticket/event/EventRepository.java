@@ -1,5 +1,7 @@
 package com.example.ticket.event;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,4 +21,14 @@ public interface EventRepository extends JpaRepository<EventEntity, Long> {
             """)
     List<EventEntity> findByArtistOrLocation(@Param("artist") String artist,
                                              @Param("location") String location);
+
+
+    @Query("""
+            SELECT event FROM EventEntity event WHERE
+            LOWER(event.artist) LIKE LOWER(CONCAT('%', :artist, '%')) OR
+            LOWER(event.location) LIKE LOWER(CONCAT('%', :location, '%'))
+            """)
+    Page<EventEntity> findByArtistOrLocation(@Param("artist") String artist,
+                                             @Param("location") String location,
+                                             Pageable pageable);
 }

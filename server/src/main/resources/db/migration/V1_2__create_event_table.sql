@@ -4,7 +4,8 @@ CREATE TABLE T_EVENT(
     date TIMESTAMP NOT NULL,
     artist character VARYING NOT NULL,
     available_tickets integer NOT NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    deleted boolean NOT NULL DEFAULT false
 );
 
 INSERT INTO T_EVENT (location, date, artist, available_tickets) values ('New York','2025-07-20 19:00:00' , 'Taylor Swift', 30);
